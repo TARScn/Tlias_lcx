@@ -13,3 +13,5 @@ mybatis:
   configuration:
     # 开启SQL日志打印
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    # 开启驼峰命名转换
+    map-underscore-to-camel-case: true
