@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lcx.tlias_web_management.mapper.EmpMapper">
+
+    <!-- 条件分页查询员工列表 -->
+    <select id="list" resultType="com.lcx.tlias_web_management.pojo.Emp">
+        select e.*, d.name as dept_name
+        from emp e
+        left join dept d on e.dept_id = d.id
+        <where>
+            <if test="name != null and name != ''">
+                and e.name like concat('%', #{name}, '%')
+            </if>
+            <if test="gender != null">
+                and e.gender = #{gender}
+            </if>
+            <if test="begin != null">
+                and e.entry_date <![CDATA[>=]]> #{begin}
+            </if>
+            <if test="end != null">
+                and e.entry_date <![CDATA[<=]]> #{end}
+            </if>
+        </where>
+        order by e.update_time desc
+    </select>
+
+    <!-- 根据ID查询员工 -->
+    <select id="getById" resultType="com.lcx.tlias_web_management.pojo.Emp">
+        select e.*, d.name as dept_name
+        from emp e
+        left join dept d on e.dept_id = d.id
+        where e.id = #{id}
+    </select>
+
+    <!-- 新增员工 -->
+    <insert id="insert" parameterType="com.lcx.tlias_web_management.pojo.Emp"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into emp (username, password, name, gender, phone, job,
+                         salary, image, entry_date, dept_id, create_time, update_time)
+        values (#{username}, #{password}, #{name}, #{gender}, #{phone}, #{job},
+                #{salary}, #{image}, #{entryDate}, #{deptId}, #{createTime}, #{updateTime})
+    </insert>
+
+    <!-- 更新员工 -->
+    <update id="update" parameterType="com.lcx.tlias_web_management.pojo.Emp">
+        update emp
+        <set>
+            <if test="name != null">name = #{name},</if>
+            <if test="gender != null">gender = #{gender},</if>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="job != null">job = #{job},</if>
+            <if test="salary != null">salary = #{salary},</if>
+            <if test="image != null">image = #{image},</if>
+            <if test="entryDate != null">entry_date = #{entryDate},</if>
+            <if test="deptId != null">dept_id = #{deptId},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!-- 根据ID删除员工 -->
+    <delete id="deleteById">
+        delete from emp where id = #{id}
+    </delete>
+
+    <!-- 批量删除员工 -->
+    <delete id="deleteByIds">
+        delete from emp where id in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

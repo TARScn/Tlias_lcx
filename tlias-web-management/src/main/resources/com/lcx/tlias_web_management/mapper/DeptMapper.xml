@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lcx.tlias_web_management.mapper.DeptMapper">
+    <!-- 查询全部部门数据 -->
+    <select id="findAll" resultType="com.lcx.tlias_web_management.pojo.Dept">
+        select id, name, create_time, update_time 
+        from dept 
+        order by update_time desc
+    </select>
+
+    <!-- 根据id删除部门数据 -->
+    <delete id="deleteById">
+        delete from dept where id=#{id}
+    </delete>
+
+    <!-- 新增部门数据 -->
+    <insert id="add" parameterType="com.lcx.tlias_web_management.pojo.Dept"
+                 useGeneratedKeys="true" keyProperty="id">
+        insert into dept(name,create_time,update_time) 
+        values(#{name},#{createTime},#{updateTime})
+    </insert>
+
+    <!-- 根据id查询部门数据 -->
+    <select id="getInfoById" resultType="com.lcx.tlias_web_management.pojo.Dept">
+        select id,name,create_time,update_time 
+        from dept where id=#{id}
+    </select>
+
+    <!-- 根据id修改部门数据 -->
+    <update id="update" parameterType="com.lcx.tlias_web_management.pojo.Dept">
+        update dept 
+        <set>
+            <if test="name != null">name = #{name},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </set>
+        where id=#{id}
+    </update>
+</mapper>

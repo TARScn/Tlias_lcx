@@ -3,23 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tlias智能学习辅助系统 - 部门管理</title>
+    <title>Tlias智能学习辅助系统</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <!-- 整体布局容器 -->
     <div class="container">
-        <!-- 左侧导航栏 -->
+        <!-- 左侧侧边栏 -->
         <aside class="sidebar">
             <div class="logo">
                 <h2>Tlias智能学习辅助系统</h2>
             </div>
             <nav class="nav-menu">
                 <ul>
-                    <li><a href="#" class="nav-item"><span class="icon">🏠</span> 首页</a></li>
+                    <li><a href="#" class="nav-item" onclick="switchView('home')"><span class="icon">📡</span> 首页</a></li>
                     <li>
                         <a href="#" class="nav-item has-submenu" onclick="toggleSubmenu(this)">
-                            <span class="icon">👥</span> 班级学员管理
+                            <span class="icon">📋</span> 班级学员管理
                             <span class="arrow">▶</span>
                         </a>
                         <ul class="submenu">
@@ -33,8 +33,8 @@
                             <span class="arrow">▼</span>
                         </a>
                         <ul class="submenu" style="display: block;">
-                            <li><a href="#" class="active">部门管理</a></li>
-                            <li><a href="#">员工管理</a></li>
+                            <li><a href="#" class="active" onclick="switchView('dept', this)">部门管理</a></li>
+                            <li><a href="#" onclick="switchView('emp', this)">员工管理</a></li>
                         </ul>
                     </li>
                     <li>
@@ -53,49 +53,143 @@
 
         <!-- 右侧主内容区 -->
         <main class="main-content">
-            <!-- 顶部栏 -->
+            <!-- 顶部导航栏 Header -->
             <header class="topbar">
-                <div class="page-title">
-                    <h3>部门管理</h3>
-                </div>
-                <div class="user-info">
-                    <button class="btn btn-primary" onclick="openAddModal()">+ 新增部门</button>
-                    <div class="user-profile">
-                        <span class="user-avatar">👤</span>
-                        <span class="user-name">宋江</span>
-                        <button class="btn-logout" onclick="logout()">退出登录</button>
-                    </div>
+                <div class="topbar-title">Tlias智能学习辅助系统</div>
+                <div class="user-info-right">
+                    <button class="btn-logout" onclick="logout()">⏻ 退出登录</button>
+                    <span class="user-badge">【宋江】</span>
                 </div>
             </header>
 
-            <!-- 表格区域 -->
-            <section class="table-section">
-                <div class="table-header">
-                    <h4>部门列表</h4>
+            <!-- 主体内容区 -->
+            <div class="content-wrapper">
+
+                <!-- ========== 部门管理视图 ========== -->
+                <div id="viewDept" class="view-panel active">
+                    <div class="page-title">
+                        <h3>部门管理</h3>
+                    </div>
+                    <div class="table-card">
+                        <div class="table-toolbar">
+                            <div class="toolbar-left">
+                                <button class="btn btn-primary" onclick="openDeptAddModal()">+ 新增部门</button>
+                            </div>
+                        </div>
+                        <div class="table-wrap">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>序号</th>
+                                        <th>部门名称</th>
+                                        <th>最后修改时间</th>
+                                        <th style="width:160px;">操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="deptTableBody">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
-                <table class="dept-table">
-                    <thead>
-                        <tr>
-                            <th>序号</th>
-                            <th>部门名称</th>
-                            <th>最后修改时间</th>
-                            <th>操作</th>
-                        </tr>
-                    </thead>
-                    <tbody id="deptTableBody">
-                        <!-- 数据由 JavaScript 动态渲染 -->
-                    </tbody>
-                </table>
-            </section>
+
+                <!-- ========== 员工管理视图 ========== -->
+                <div id="viewEmp" class="view-panel">
+                    <div class="page-title">
+                        <h3>员工管理</h3>
+                    </div>
+                    <!-- 搜索筛选栏 -->
+                    <div class="search-card">
+                        <div class="search-form">
+                            <div class="search-item">
+                                <label>姓名</label>
+                                <input type="text" id="searchName" placeholder="请输入员工姓名">
+                            </div>
+                            <div class="search-item">
+                                <label>性别</label>
+                                <select id="searchGender">
+                                    <option value="">请选择</option>
+                                    <option value="1">男</option>
+                                    <option value="2">女</option>
+                                </select>
+                            </div>
+                            <div class="search-item">
+                                <label>入职日期</label>
+                                <div class="date-range">
+                                    <input type="date" id="searchBegin" placeholder="开始日期">
+                                    <span class="date-sep">至</span>
+                                    <input type="date" id="searchEnd" placeholder="结束日期">
+                                </div>
+                            </div>
+                            <div class="search-actions">
+                                <button class="btn btn-primary" onclick="searchEmps()">查询</button>
+                                <button class="btn btn-outline" onclick="clearEmpSearch()">清空</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 功能操作栏 + 数据表格 -->
+                    <div class="table-card">
+                        <div class="table-toolbar">
+                            <div class="toolbar-left">
+                                <button class="btn btn-primary" onclick="openEmpAddModal()">+ 新增员工</button>
+                                <button class="btn btn-danger" onclick="batchDeleteEmps()">批量删除</button>
+                            </div>
+                        </div>
+                        <div class="table-wrap">
+                            <table class="emp-table">
+                                <thead>
+                                    <tr>
+                                        <th style="width:40px;">
+                                            <input type="checkbox" id="checkAll" onchange="toggleCheckAll(this)">
+                                        </th>
+                                        <th>姓名</th>
+                                        <th>性别</th>
+                                        <th>头像</th>
+                                        <th>部门名称</th>
+                                        <th>职位</th>
+                                        <th>入职日期</th>
+                                        <th>最后操作时间</th>
+                                        <th style="width:140px;">操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="empTableBody">
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- 分页栏 -->
+                        <div class="pagination-bar">
+                            <span class="total-info">共 <b id="totalCount">0</b> 条</span>
+                            <div class="pagination-controls">
+                                <button class="page-btn" onclick="goPage(1)" id="btnFirst">首页</button>
+                                <button class="page-btn" onclick="goPage(currentPage - 1)" id="btnPrev">上一页</button>
+                                <span class="page-info">第 <b id="currentPageNum">1</b> 页 / 共 <b id="totalPagesNum">1</b> 页</span>
+                                <button class="page-btn" onclick="goPage(currentPage + 1)" id="btnNext">下一页</button>
+                                <button class="page-btn" onclick="goPage(totalPages)" id="btnLast">末页</button>
+                            </div>
+                            <div class="page-size-selector">
+                                每页显示
+                                <select id="pageSizeSelect" onchange="changePageSize()">
+                                    <option value="5">5</option>
+                                    <option value="10" selected>10</option>
+                                    <option value="20">20</option>
+                                    <option value="50">50</option>
+                                </select>
+                                条
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div><!-- /content-wrapper -->
         </main>
     </div>
 
-    <!-- 新增/修改部门弹窗 -->
+    <!-- ========== 部门新增/编辑弹窗 ========== -->
     <div id="deptModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 id="modalTitle">新增部门</h3>
-                <span class="close" onclick="closeModal()">&times;</span>
+                <h3 id="deptModalTitle">新增部门</h3>
+                <span class="close" onclick="closeDeptModal()">&times;</span>
             </div>
             <div class="modal-body">
                 <form id="deptForm">
@@ -107,25 +201,114 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-cancel" onclick="closeModal()">取消</button>
+                <button class="btn btn-cancel" onclick="closeDeptModal()">取消</button>
                 <button class="btn btn-primary" onclick="submitDept()">确定</button>
             </div>
         </div>
     </div>
 
-    <!-- 删除确认弹窗 -->
-    <div id="deleteModal" class="modal">
+    <!-- ========== 部门删除确认弹窗 ========== -->
+    <div id="deptDeleteModal" class="modal">
         <div class="modal-content modal-sm">
             <div class="modal-header">
                 <h3>确认删除</h3>
-                <span class="close" onclick="closeDeleteModal()">&times;</span>
+                <span class="close" onclick="closeDeptDeleteModal()">&times;</span>
             </div>
             <div class="modal-body">
                 <p>确定要删除部门「<span id="deleteDeptName"></span>」吗？此操作不可撤销。</p>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-cancel" onclick="closeDeleteModal()">取消</button>
-                <button class="btn btn-danger" onclick="confirmDelete()">确定删除</button>
+                <button class="btn btn-cancel" onclick="closeDeptDeleteModal()">取消</button>
+                <button class="btn btn-danger" onclick="confirmDeptDelete()">确定删除</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== 员工新增/编辑弹窗 ========== -->
+    <div id="empModal" class="modal">
+        <div class="modal-content modal-lg">
+            <div class="modal-header">
+                <h3 id="empModalTitle">新增员工</h3>
+                <span class="close" onclick="closeEmpModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="empForm">
+                    <input type="hidden" id="empId">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="empName">姓名 <span class="required">*</span></label>
+                            <input type="text" id="empName" placeholder="请输入姓名" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="empGender">性别 <span class="required">*</span></label>
+                            <select id="empGender" required>
+                                <option value="">请选择</option>
+                                <option value="1">男</option>
+                                <option value="2">女</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="empPhone">手机号</label>
+                            <input type="text" id="empPhone" placeholder="请输入手机号">
+                        </div>
+                        <div class="form-group">
+                            <label for="empJob">职位 <span class="required">*</span></label>
+                            <select id="empJob" required>
+                                <option value="">请选择</option>
+                                <option value="1">班主任</option>
+                                <option value="2">讲师</option>
+                                <option value="3">学工主管</option>
+                                <option value="4">教研主管</option>
+                                <option value="5">咨询师</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="empEntryDate">入职日期</label>
+                            <input type="date" id="empEntryDate">
+                        </div>
+                        <div class="form-group">
+                            <label for="empDeptId">部门 <span class="required">*</span></label>
+                            <select id="empDeptId" required>
+                                <option value="">请选择</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="empSalary">薪资</label>
+                            <input type="number" id="empSalary" placeholder="请输入薪资" step="0.01">
+                        </div>
+                        <div class="form-group">
+                            <label for="empImage">头像URL</label>
+                            <input type="text" id="empImage" placeholder="请输入头像URL（可选）">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-cancel" onclick="closeEmpModal()">取消</button>
+                <button class="btn btn-primary" onclick="submitEmp()">确定</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== 员工删除确认弹窗 ========== -->
+    <div id="empDeleteModal" class="modal">
+        <div class="modal-content modal-sm">
+            <div class="modal-header">
+                <h3 id="empDeleteModalTitle">确认删除</h3>
+                <span class="close" onclick="closeEmpDeleteModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p id="empDeleteModalMsg">确定要删除该员工吗？此操作不可撤销。</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-cancel" onclick="closeEmpDeleteModal()">取消</button>
+                <button class="btn btn-danger" id="confirmEmpDeleteBtn">确定删除</button>
             </div>
         </div>
     </div>

@@ -10,6 +10,7 @@ spring:
 
 # MyBatis 配置
 mybatis:
+  mapper-locations: classpath:com/lcx/tlias_web_management/mapper/*.xml
   configuration:
     # 开启SQL日志打印（使用 SLF4J，与 logback 集成）
     log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
