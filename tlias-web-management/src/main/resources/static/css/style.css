@@ -699,6 +699,60 @@ ul {
     color: #bfbfbf;
 }
 
+/* ===== 工作经历表单区域 ===== */
+.form-section {
+    border-top: 1px solid #f0f0f0;
+    padding-top: 16px;
+    margin-top: 8px;
+}
+
+.form-section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.form-section-header h4 {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+}
+
+.btn-sm {
+    padding: 4px 12px;
+    font-size: 12px;
+}
+
+.emp-expr-row {
+    background: #fafafa;
+    border: 1px solid #f0f0f0;
+    border-radius: 6px;
+    padding: 12px;
+    margin-bottom: 10px;
+    position: relative;
+}
+
+.emp-expr-row .form-row {
+    margin-bottom: 8px;
+}
+
+.emp-expr-row .form-row:last-of-type {
+    margin-bottom: 0;
+}
+
+.emp-expr-row .form-group {
+    margin-bottom: 0;
+}
+
+.expr-row-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px dashed #e8e8e8;
+}
+
 /* ===== 动画 ===== */
 @keyframes fadeIn {
     from { opacity: 0; }

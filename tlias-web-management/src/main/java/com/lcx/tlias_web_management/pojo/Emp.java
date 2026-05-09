@@ -1,6 +1,7 @@
 package com.lcx.tlias_web_management.pojo; 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import lombok.Data;
 
@@ -20,4 +21,5 @@ public class Emp {
     private LocalDateTime createTime; // 创建时间
     private LocalDateTime updateTime; // 修改时间
     private String deptName;     // 部门名称, 用于查询时显示部门名称
+    private List<EmpExpr> empExprList; // 工作经历列表
 }

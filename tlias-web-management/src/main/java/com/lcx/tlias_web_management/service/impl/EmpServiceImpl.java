@@ -10,8 +10,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.lcx.tlias_web_management.mapper.EmpExprMapper;
 import com.lcx.tlias_web_management.mapper.EmpMapper;
 import com.lcx.tlias_web_management.pojo.Emp;
+import com.lcx.tlias_web_management.pojo.EmpExpr;
 import com.lcx.tlias_web_management.pojo.PageResult;
 import com.lcx.tlias_web_management.service.EmpService;
 
@@ -19,6 +21,9 @@ import com.lcx.tlias_web_management.service.EmpService;
 public class EmpServiceImpl implements EmpService {
     @Autowired
     private EmpMapper empMapper;
+
+    @Autowired
+    private EmpExprMapper empExprMapper;
 
     @Override
     public PageResult<Emp> page(Integer pageNum, Integer pageSize,
@@ -37,6 +42,7 @@ public class EmpServiceImpl implements EmpService {
     }
 
     @Override
+    @Transactional
     public void add(Emp emp) {
         // 补齐默认值
         if (emp.getUsername() == null || emp.getUsername().isEmpty()) {
@@ -48,6 +54,13 @@ public class EmpServiceImpl implements EmpService {
         emp.setCreateTime(LocalDateTime.now());
         emp.setUpdateTime(LocalDateTime.now());
         empMapper.insert(emp);
+
+        // 插入工作经历（前端传 null 则不插入）
+        List<EmpExpr> exprList = emp.getEmpExprList();
+        if (exprList != null && !exprList.isEmpty()) {
+            exprList.forEach(e -> e.setEmpId(emp.getId())); // 在xml中配置了 useGeneratedKeys，所以 emp.getId() 已经有值了
+            empExprMapper.insertBatch(exprList);
+        }
     }
 
     @Override

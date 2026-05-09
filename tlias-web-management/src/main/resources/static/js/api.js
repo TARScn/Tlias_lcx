@@ -522,17 +522,87 @@ function loadDeptOptions(targetSelectId) {
         .catch(error => console.error('加载部门列表失败:', error));
 }
 
+// -- 工作经历动态表单 --
+function addEmpExprRow(begin, end, company, job) {
+    console.log('addEmpExprRow called', { begin, end, company, job });
+    const container = document.getElementById('empExprContainer');
+    if (!container) {
+        console.error('empExprContainer not found in DOM');
+        return;
+    }
+    const row = document.createElement('div');
+    row.className = 'emp-expr-row';
+    row.innerHTML = `
+        <div class="form-row">
+            <div class="form-group">
+                <label>公司名称</label>
+                <input type="text" class="expr-company" placeholder="请输入公司名称" value="${escapeHtml(company || '')}">
+            </div>
+            <div class="form-group">
+                <label>职位</label>
+                <input type="text" class="expr-job" placeholder="请输入职位" value="${escapeHtml(job || '')}">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label>开始时间</label>
+                <input type="date" class="expr-begin" value="${begin || ''}">
+            </div>
+            <div class="form-group">
+                <label>结束时间</label>
+                <input type="date" class="expr-end" value="${end || ''}">
+            </div>
+        </div>
+        <div class="expr-row-actions">
+            <button type="button" class="btn-delete-text" onclick="removeEmpExprRow(this)">删除此经历</button>
+        </div>
+    `;
+    container.appendChild(row);
+    console.log('empExprRow added, total rows:', container.children.length);
+}
+
+function removeEmpExprRow(btn) {
+    btn.closest('.emp-expr-row').remove();
+}
+
+function clearEmpExprRows() {
+    const container = document.getElementById('empExprContainer');
+    if (container) container.innerHTML = '';
+}
+
+function collectEmpExprList() {
+    const rows = document.querySelectorAll('.emp-expr-row');
+    const exprList = [];
+    rows.forEach(row => {
+        const begin = row.querySelector('.expr-begin').value;
+        const end = row.querySelector('.expr-end').value;
+        const company = row.querySelector('.expr-company').value.trim();
+        const job = row.querySelector('.expr-job').value.trim();
+        if (company || job || begin || end) {
+            exprList.push({
+                begin: begin || null,
+                end: end || null,
+                company: company || null,
+                job: job || null
+            });
+        }
+    });
+    return exprList.length > 0 ? exprList : null;
+}
+
 // -- 新增/编辑弹窗 --
 function openEmpAddModal() {
     document.getElementById('empModalTitle').textContent = '新增员工';
     document.getElementById('empId').value = '';
     document.getElementById('empForm').reset();
+    clearEmpExprRows();
     loadDeptOptions('empDeptId');
     document.getElementById('empModal').style.display = 'block';
 }
 
 function openEmpEditModal(id) {
     document.getElementById('empModalTitle').textContent = '编辑员工';
+    clearEmpExprRows();
     loadDeptOptions('empDeptId');
 
     fetch(`${BASE_URL}/emps/${id}`)
@@ -541,6 +611,7 @@ function openEmpEditModal(id) {
             if (result.code === 1 && result.data) {
                 const emp = result.data;
                 document.getElementById('empId').value = emp.id;
+                document.getElementById('empUsername').value = emp.username || '';
                 document.getElementById('empName').value = emp.name || '';
                 document.getElementById('empGender').value = emp.gender || '';
                 document.getElementById('empPhone').value = emp.phone || '';
@@ -551,6 +622,17 @@ function openEmpEditModal(id) {
                 setTimeout(() => {
                     document.getElementById('empDeptId').value = emp.deptId || '';
                 }, 300);
+                // 回填工作经历
+                if (emp.empExprList && emp.empExprList.length > 0) {
+                    emp.empExprList.forEach(expr => {
+                        addEmpExprRow(
+                            formatDate(expr.begin) !== '-' ? formatDate(expr.begin) : '',
+                            formatDate(expr.end) !== '-' ? formatDate(expr.end) : '',
+                            expr.company,
+                            expr.job
+                        );
+                    });
+                }
                 document.getElementById('empModal').style.display = 'block';
             } else {
                 alert('获取员工信息失败');
@@ -566,12 +648,14 @@ function closeEmpModal() {
     document.getElementById('empModal').style.display = 'none';
     document.getElementById('empForm').reset();
     document.getElementById('empId').value = '';
+    clearEmpExprRows();
 }
 
 function submitEmp() {
     const id = document.getElementById('empId').value;
     const isEdit = id !== '';
 
+    const username = document.getElementById('empUsername').value.trim();
     const name = document.getElementById('empName').value.trim();
     const gender = document.getElementById('empGender').value;
     const phone = document.getElementById('empPhone').value.trim();
@@ -581,16 +665,21 @@ function submitEmp() {
     const salary = document.getElementById('empSalary').value;
     const image = document.getElementById('empImage').value.trim();
 
+    if (!username) { alert('请输入用户名'); return; }
     if (!name) { alert('请输入姓名'); return; }
     if (!gender) { alert('请选择性别'); return; }
     if (!job) { alert('请选择职位'); return; }
     if (!deptId) { alert('请选择部门'); return; }
 
+    const empExprList = collectEmpExprList();
+
     const body = {
+        username: username,
         name: name, gender: parseInt(gender),
         phone: phone || null, job: parseInt(job),
         entryDate: entryDate || null, deptId: parseInt(deptId),
-        salary: salary ? parseFloat(salary) : null, image: image || null
+        salary: salary ? parseFloat(salary) : null, image: image || null,
+        empExprList: empExprList
     };
     if (isEdit) body.id = parseInt(id);
 
