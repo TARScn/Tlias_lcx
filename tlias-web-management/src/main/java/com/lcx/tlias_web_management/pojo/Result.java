@@ -29,4 +29,11 @@ public class Result {
         result.message="error";
         return result;
     }
+
+    public static Result error(String msg) {
+        Result result = new Result();
+        result.code=0;
+        result.message = msg;
+        return result;
+    }
 }

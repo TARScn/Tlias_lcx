@@ -38,11 +38,17 @@ public class EmpServiceImpl implements EmpService {
 
     @Override
     public Emp getById(Integer id) {
-        return empMapper.getById(id);
+        // 添加员工工作经历查询
+        Emp emp = empMapper.getById(id);
+        if (emp != null) {
+            List<EmpExpr> exprList = empExprMapper.listByEmpId(id);
+            emp.setEmpExprList(exprList);
+        }
+        return emp;
     }
 
     @Override
-    @Transactional
+    @Transactional // 声明式事务管理:新增员工和工作经历需要放在同一个事务中
     public void add(Emp emp) {
         // 补齐默认值
         if (emp.getUsername() == null || emp.getUsername().isEmpty()) {
@@ -64,19 +70,34 @@ public class EmpServiceImpl implements EmpService {
     }
 
     @Override
+    @Transactional // 更新员工和工作经历需要放在同一个事务中
     public void update(Emp emp) {
         emp.setUpdateTime(LocalDateTime.now());
+        // 工作经历更新：先删除原有的，再插入新的（前端传 null 则不更新）
+        List<EmpExpr> exprList = emp.getEmpExprList();
+        if (exprList != null) {
+            empExprMapper.deleteByEmpId(emp.getId());
+            if (!exprList.isEmpty()) {
+                exprList.forEach(e -> e.setEmpId(emp.getId()));
+                empExprMapper.insertBatch(exprList);
+            }
+        }
         empMapper.update(emp);
     }
 
     @Override
+    @Transactional // 删除员工和工作经历需要放在同一个事务中
     public void deleteById(Integer id) {
+        // 先删除工作经历（外键关联），再删除员工
+        empExprMapper.deleteByEmpId(id);
         empMapper.deleteById(id);
     }
 
     @Override
     @Transactional
     public void deleteByIds(List<Integer> ids) {
+        // 先批量删除工作经历（外键关联），再批量删除员工
+        empExprMapper.deleteBatch(ids);
         empMapper.deleteByIds(ids);
     }
 }

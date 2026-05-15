@@ -5,11 +5,44 @@
 
     <!-- 批量插入员工工作经历 -->
     <insert id="insertBatch" parameterType="list">
-        insert into emp_expr (emp_id, begin, end, company, job)
+        insert into emp_expr (emp_id, `begin`, `end`, company, job)
         values
         <foreach collection="list" item="item" separator=",">
             (#{item.empId}, #{item.begin}, #{item.end}, #{item.company}, #{item.job})
         </foreach>
     </insert>
+
+    <!-- 批量删除员工工作经历 -->
+    <delete id="deleteBatch" parameterType="list">
+        delete from emp_expr
+        where emp_id in
+        <foreach collection="list" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <!-- 根据员工id删除员工工作经历 -->
+    <delete id="deleteByEmpId" parameterType="int">
+        delete from emp_expr where emp_id = #{empId}
+    </delete>
+
+    <!-- 根据员工id查询员工工作经历 -->
+    <select id="listByEmpId" parameterType="int" resultType="com.lcx.tlias_web_management.pojo.EmpExpr">
+        select id, emp_id, `begin`, `end`, company, job
+        from emp_expr
+        where emp_id = #{empId}
+    </select>
+
+    <!-- 根据员工id修改员工工作经历 -->
+    <update id="updateBatch" parameterType="list">
+        <foreach collection="list" item="item" separator=";">
+            update emp_expr
+            set `begin` = #{item.begin},
+                `end` = #{item.end},
+                company = #{item.company},
+                job = #{item.job}
+            where id = #{item.id}
+        </foreach>
+    </update>
 
 </mapper>
