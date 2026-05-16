@@ -66,3 +66,17 @@ function apiBatchDeleteEmps(ids) {
     return fetch(BASE_URL + '/emps/batch?' + params.toString(), { method: 'DELETE' })
         .then(function(response) { return response.json(); });
 }
+
+/**
+ * 上传头像图片
+ * @param {File} file - 要上传的图片文件
+ * @returns {Promise} 返回包含图片URL的结果
+ */
+function apiUploadImage(file) {
+    var formData = new FormData();
+    formData.append('image', file);
+    return fetch(BASE_URL + '/upload', {
+        method: 'POST',
+        body: formData
+    }).then(function(response) { return response.json(); });
+}

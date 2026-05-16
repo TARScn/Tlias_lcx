@@ -317,12 +317,87 @@ function collectEmpExprList() {
     return exprList.length > 0 ? exprList : null;
 }
 
+// ===== 头像上传 =====
+
+/**
+ * 处理用户选择头像文件
+ */
+function handleAvatarSelect(event) {
+    var file = event.target.files[0];
+    if (!file) return;
+
+    // 校验文件大小（不超过 5MB）
+    if (file.size > 5 * 1024 * 1024) {
+        alert('图片大小不能超过 5MB');
+        event.target.value = '';
+        return;
+    }
+
+    // 校验文件类型
+    var validTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+    if (validTypes.indexOf(file.type) === -1) {
+        alert('请选择 JPG/PNG/GIF/WebP 格式的图片');
+        event.target.value = '';
+        return;
+    }
+
+    document.getElementById('avatarFileName').textContent = file.name;
+
+    // 显示本地预览
+    var reader = new FileReader();
+    reader.onload = function(e) {
+        var img = document.getElementById('avatarPreviewImg');
+        var placeholder = document.getElementById('avatarPreviewPlaceholder');
+        img.src = e.target.result;
+        img.style.display = 'block';
+        placeholder.style.display = 'none';
+    };
+    reader.readAsDataURL(file);
+
+    // 自动上传到服务器
+    uploadAvatar(file);
+}
+
+/**
+ * 上传头像到服务器
+ */
+function uploadAvatar(file) {
+    var wrapper = document.querySelector('.avatar-upload-wrapper');
+    wrapper.classList.add('avatar-uploading');
+
+    apiUploadImage(file)
+        .then(function(result) {
+            wrapper.classList.remove('avatar-uploading');
+            if (result.code === 1 && result.data) {
+                // 将返回的图片URL存入隐藏字段
+                document.getElementById('empImage').value = result.data;
+                // 更新预览为服务器URL
+                var img = document.getElementById('avatarPreviewImg');
+                img.src = BASE_URL + result.data;
+            } else {
+                alert('头像上传失败：' + (result.message || '未知错误'));
+            }
+        })
+        .catch(function(error) {
+            wrapper.classList.remove('avatar-uploading');
+            console.error('头像上传失败:', error);
+            alert('头像上传失败，请检查网络连接');
+        });
+}
+
 // ===== 新增/编辑弹窗 =====
 
 function openEmpAddModal() {
     document.getElementById('empModalTitle').textContent = '新增员工';
     document.getElementById('empId').value = '';
     document.getElementById('empForm').reset();
+    // 重置头像预览
+    var img = document.getElementById('avatarPreviewImg');
+    var placeholder = document.getElementById('avatarPreviewPlaceholder');
+    img.src = '';
+    img.style.display = 'none';
+    placeholder.style.display = 'flex';
+    document.getElementById('avatarFileName').textContent = '未选择文件';
     clearEmpExprRows();
     loadDeptOptions('empDeptId');
     document.getElementById('empModal').style.display = 'block';
@@ -345,7 +420,24 @@ function openEmpEditModal(id) {
                 document.getElementById('empJob').value = emp.job || '';
                 document.getElementById('empEntryDate').value = formatDate(emp.entryDate) !== '-' ? formatDate(emp.entryDate) : '';
                 document.getElementById('empSalary').value = emp.salary || '';
-                document.getElementById('empImage').value = emp.image || '';
+                // 设置头像预览
+                var avatarUrl = emp.image || '';
+                document.getElementById('empImage').value = avatarUrl;
+                if (avatarUrl) {
+                    var img = document.getElementById('avatarPreviewImg');
+                    var placeholder = document.getElementById('avatarPreviewPlaceholder');
+                    img.src = BASE_URL + avatarUrl;
+                    img.style.display = 'block';
+                    placeholder.style.display = 'none';
+                    document.getElementById('avatarFileName').textContent = '已有头像';
+                } else {
+                    var img = document.getElementById('avatarPreviewImg');
+                    var placeholder = document.getElementById('avatarPreviewPlaceholder');
+                    img.src = '';
+                    img.style.display = 'none';
+                    placeholder.style.display = 'flex';
+                    document.getElementById('avatarFileName').textContent = '未选择文件';
+                }
                 setTimeout(function() {
                     document.getElementById('empDeptId').value = emp.deptId || '';
                 }, 300);

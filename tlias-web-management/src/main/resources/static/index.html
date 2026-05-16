@@ -289,8 +289,19 @@
                     </div>
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="empImage">头像URL</label>
-                            <input type="text" id="empImage" placeholder="请输入头像URL（可选）">
+                            <label for="empImage">头像</label>
+                            <div class="avatar-upload-wrapper">
+                                <div class="avatar-preview" id="avatarPreview">
+                                    <img id="avatarPreviewImg" src="" alt="头像预览" style="display:none;">
+                                    <span id="avatarPreviewPlaceholder" class="avatar-placeholder-lg">👤</span>
+                                </div>
+                                <div class="avatar-upload-actions">
+                                    <input type="file" id="empImageFile" accept="image/*" style="display:none;" onchange="handleAvatarSelect(event)">
+                                    <button type="button" class="btn btn-outline btn-sm" onclick="document.getElementById('empImageFile').click()">选择图片</button>
+                                    <span id="avatarFileName" class="avatar-file-name">未选择文件</span>
+                                </div>
+                                <input type="hidden" id="empImage" value="">
+                            </div>
                         </div>
                     </div>
                     <!-- 工作经历 -->
