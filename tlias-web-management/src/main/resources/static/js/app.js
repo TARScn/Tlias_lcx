@@ -37,6 +37,8 @@ function switchView(view, el) {
         fetchDepts();
     } else if (view === 'emp') {
         fetchEmps();
+    } else if (view === 'stat') {
+        loadEmpStats();
     }
 }
 

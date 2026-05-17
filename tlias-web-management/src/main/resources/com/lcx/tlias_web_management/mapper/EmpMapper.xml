@@ -72,4 +72,22 @@
         </foreach>
     </delete>
 
+    <!-- 统计员工职位人数 -->
+    <select id="countEmpJob" resultType="java.util.Map">
+        select (case when job = 1 then '班主任'
+             when job = 2 then '讲师'
+             when job = 3 then '学工主管'
+             when job = 4 then '教研主管'
+             when job = 5 then '咨询师'
+             else '其他' end) as pos,
+             count(*) as count
+        from emp group by job order by count desc
+    </select>
+
+    <!-- 统计员工性别 -->
+    <select id="countEmpGender" resultType="java.util.Map">
+        select (case when gender = 1 then '男' else '女' end) as gender,
+               count(*) as count
+        from emp group by gender
+    </select>
 </mapper>

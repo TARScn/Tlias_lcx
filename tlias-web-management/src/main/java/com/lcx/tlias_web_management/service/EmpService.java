@@ -2,8 +2,10 @@ package com.lcx.tlias_web_management.service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 import com.lcx.tlias_web_management.pojo.Emp;
+import com.lcx.tlias_web_management.pojo.JobOption;
 import com.lcx.tlias_web_management.pojo.PageResult;
 
 public interface EmpService {
@@ -38,4 +40,16 @@ public interface EmpService {
      * 批量删除员工
      */
     void deleteByIds(List<Integer> ids);
+
+    /**
+     * 统计员工职位人数
+     * @return JobOption 包含职位列表和数据列表
+     */
+    JobOption countEmpJob();
+
+    /**
+     * 统计员工性别
+     * @return List<Map> 包含性别和人数
+     */
+    List<Map<String, Object>> countEmpGender();
 }

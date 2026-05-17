@@ -80,3 +80,21 @@ function apiUploadImage(file) {
         body: formData
     }).then(function(response) { return response.json(); });
 }
+
+/**
+ * 统计员工职位人数
+ * @returns {Promise} 返回职位统计数据
+ */
+function apiCountEmpJob() {
+    return fetch(BASE_URL + '/emps/countJob')
+        .then(function(response) { return response.json(); });
+}
+
+/**
+ * 统计员工性别
+ * @returns {Promise} 返回性别统计数据
+ */
+function apiCountEmpGender() {
+    return fetch(BASE_URL + '/emps/countGender')
+        .then(function(response) { return response.json(); });
+}

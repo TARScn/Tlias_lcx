@@ -3,8 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <title>Tlias智能学习辅助系统</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css?v=4">
 </head>
 <body>
     <!-- 整体布局容器 -->
@@ -43,8 +46,8 @@
                             <span class="arrow">▶</span>
                         </a>
                         <ul class="submenu">
-                            <li><a href="#">统计报表</a></li>
-                            <li><a href="#">数据分析</a></li>
+                            <li><a href="#" onclick="switchView('stat', this)">员工信息统计</a></li>
+                            <li><a href="#">学员信息统计</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -175,6 +178,32 @@
                                     <option value="50">50</option>
                                 </select>
                                 条
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- ========== 员工信息统计视图 ========== -->
+                <div id="viewStat" class="view-panel">
+                    <div class="page-title">
+                        <h3>员工信息统计</h3>
+                    </div>
+                    <div class="stats-container">
+                        <!-- 职位人数柱状图（ECharts 实现） -->
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <h4>职位人数统计</h4>
+                            </div>
+                            <div class="chart-body chart-bar-wrap">
+                                <div class="chart-echarts" id="barChartContainer"></div>
+                            </div>
+                        </div>
+                        <!-- 员工性别统计饼状图（ECharts 实现） -->
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <h4>员工性别统计</h4>
+                            </div>
+                            <div class="chart-body chart-pie-wrap">
+                                <div class="chart-echarts" id="pieChartContainer"></div>
                             </div>
                         </div>
                     </div>
@@ -341,15 +370,18 @@
     </div>
 
     <!-- 基础模块 -->
-    <script src="js/config.js"></script>
-    <script src="js/utils.js"></script>
+    <script src="js/config.js?v=4"></script>
+    <script src="js/utils.js?v=4"></script>
     <!-- API 层 -->
-    <script src="js/api/dept.js"></script>
-    <script src="js/api/emp.js"></script>
+    <script src="js/api/dept.js?v=4"></script>
+    <script src="js/api/emp.js?v=4"></script>
+    <!-- 图表库 -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
     <!-- 页面逻辑 -->
-    <script src="js/pages/dept-manage.js"></script>
-    <script src="js/pages/emp-manage.js"></script>
+    <script src="js/pages/dept-manage.js?v=4"></script>
+    <script src="js/pages/emp-manage.js?v=4"></script>
+    <script src="js/pages/stat-manage.js?v=4"></script>
     <!-- 应用入口 -->
-    <script src="js/app.js"></script>
+    <script src="js/app.js?v=4"></script>
 </body>
 </html>

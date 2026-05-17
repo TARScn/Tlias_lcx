@@ -94,4 +94,22 @@ public class EmpController {
         empService.deleteByIds(ids);
         return Result.success();
     }
+
+    /**
+     * 统计员工职位人数
+     */
+    @GetMapping("/countJob")
+    public Result countEmpJob() {
+        log.info("统计员工职位人数");
+        return Result.success(empService.countEmpJob());
+    }
+
+    /**
+     * 统计员工性别
+     */
+    @GetMapping("/countGender")
+    public Result countEmpGender() {
+        log.info("统计员工性别");
+        return Result.success(empService.countEmpGender());
+    }
 }

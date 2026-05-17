@@ -2,6 +2,7 @@ package com.lcx.tlias_web_management.mapper;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -47,4 +48,16 @@ public interface EmpMapper {
      * 批量删除员工
      */
     void deleteByIds(@Param("ids") List<Integer> ids);
+
+    /**
+     * 统计员工的职位人数
+     * @return List of {pos, count}
+     */
+    List<Map<String, Object>> countEmpJob();
+
+    /**
+     * 统计员工的性别
+     * @return List of {gender, count}
+     */
+    List<Map<String, Object>> countEmpGender();
 }

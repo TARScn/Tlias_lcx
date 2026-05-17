@@ -2,7 +2,9 @@ package com.lcx.tlias_web_management.service.impl;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +16,7 @@ import com.lcx.tlias_web_management.mapper.EmpExprMapper;
 import com.lcx.tlias_web_management.mapper.EmpMapper;
 import com.lcx.tlias_web_management.pojo.Emp;
 import com.lcx.tlias_web_management.pojo.EmpExpr;
+import com.lcx.tlias_web_management.pojo.JobOption;
 import com.lcx.tlias_web_management.pojo.PageResult;
 import com.lcx.tlias_web_management.service.EmpService;
 
@@ -99,5 +102,22 @@ public class EmpServiceImpl implements EmpService {
         // 先批量删除工作经历（外键关联），再批量删除员工
         empExprMapper.deleteBatch(ids);
         empMapper.deleteByIds(ids);
+    }
+
+    @Override
+    public JobOption countEmpJob() {
+        List<Map<String, Object>> list = empMapper.countEmpJob();
+        List<Object> jobList = new ArrayList<>();
+        List<Object> dataList = new ArrayList<>();
+        for (Map<String, Object> map : list) {
+            jobList.add(map.get("pos"));
+            dataList.add(map.get("count"));
+        }
+        return new JobOption(jobList, dataList);
+    }
+
+    @Override
+    public List<Map<String, Object>> countEmpGender() {
+        return empMapper.countEmpGender();
     }
 }
