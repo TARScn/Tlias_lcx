@@ -7,6 +7,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     <title>Tlias智能学习辅助系统</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="stylesheet" href="css/style.css?v=4">
 </head>
 <body>
@@ -26,8 +27,8 @@
                             <span class="arrow">▶</span>
                         </a>
                         <ul class="submenu">
-                            <li><a href="#">班级管理</a></li>
-                            <li><a href="#">学员管理</a></li>
+                            <li><a href="#" onclick="switchView('clazz', this)">班级管理</a></li>
+                            <li><a href="#" onclick="switchView('student', this)">学员管理</a></li>
                         </ul>
                     </li>
                     <li>
@@ -46,8 +47,8 @@
                             <span class="arrow">▶</span>
                         </a>
                         <ul class="submenu">
-                            <li><a href="#" onclick="switchView('stat', this)">员工信息统计</a></li>
-                            <li><a href="#">学员信息统计</a></li>
+                            <li><a href="#" onclick="switchView('statEmp', this)">员工信息统计</a></li>
+                            <li><a href="#" onclick="switchView('statStudent', this)">学员信息统计</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -92,6 +93,160 @@
                                 <tbody id="deptTableBody">
                                 </tbody>
                             </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ========== 班级管理视图 ========== -->
+                <div id="viewClazz" class="view-panel">
+                    <div class="page-title">
+                        <h3>班级管理</h3>
+                    </div>
+                    <!-- 搜索筛选栏 -->
+                    <div class="search-card">
+                        <div class="search-form">
+                            <div class="search-item">
+                                <label>班级名称</label>
+                                <input type="text" id="clazzSearchName" placeholder="请输入班级名称">
+                            </div>
+                            <div class="search-actions">
+                                <button class="btn btn-primary" onclick="searchClazz()">查询</button>
+                                <button class="btn btn-outline" onclick="clearClazzSearch()">清空</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 功能操作栏 + 数据表格 -->
+                    <div class="table-card">
+                        <div class="table-toolbar">
+                            <div class="toolbar-left">
+                                <button class="btn btn-primary" onclick="openClazzAddModal()">+ 新增班级</button>
+                            </div>
+                        </div>
+                        <div class="table-wrap">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>序号</th>
+                                        <th>班级名称</th>
+                                        <th>教室</th>
+                                        <th>班主任</th>
+                                        <th>开课~结课</th>
+                                        <th>状态</th>
+                                        <th style="width:160px;">操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="clazzTableBody">
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- 分页栏 -->
+                        <div class="pagination-bar">
+                            <span class="total-info">共 <b id="clazzTotalCount">0</b> 条</span>
+                            <div class="pagination-controls">
+                                <button class="page-btn" onclick="clazzGoPage(1)" id="clazzBtnFirst">首页</button>
+                                <button class="page-btn" onclick="clazzGoPage(clazzCurrentPage - 1)" id="clazzBtnPrev">上一页</button>
+                                <span class="page-info">第 <b id="clazzCurrentPageNum">1</b> 页 / 共 <b id="clazzTotalPagesNum">1</b> 页</span>
+                                <button class="page-btn" onclick="clazzGoPage(clazzCurrentPage + 1)" id="clazzBtnNext">下一页</button>
+                                <button class="page-btn" onclick="clazzGoPage(clazzTotalPages)" id="clazzBtnLast">末页</button>
+                            </div>
+                            <div class="page-size-selector">
+                                每页显示
+                                <select id="clazzPageSizeSelect" onchange="changeClazzPageSize()">
+                                    <option value="5">5</option>
+                                    <option value="10" selected>10</option>
+                                    <option value="20">20</option>
+                                    <option value="50">50</option>
+                                </select>
+                                条
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ========== 学员管理视图 ========== -->
+                <div id="viewStudent" class="view-panel">
+                    <div class="page-title">
+                        <h3>学员管理</h3>
+                    </div>
+                    <!-- 搜索筛选栏 -->
+                    <div class="search-card">
+                        <div class="search-form">
+                            <div class="search-item">
+                                <label>学员姓名</label>
+                                <input type="text" id="stuSearchName" placeholder="请输入学员姓名">
+                            </div>
+                            <div class="search-item">
+                                <label>最高学历</label>
+                                <select id="stuSearchDegree">
+                                    <option value="">请选择</option>
+                                    <option value="1">初中</option>
+                                    <option value="2">高中</option>
+                                    <option value="3">大专</option>
+                                    <option value="4">本科</option>
+                                    <option value="5">硕士</option>
+                                    <option value="6">博士</option>
+                                </select>
+                            </div>
+                            <div class="search-item">
+                                <label>所属班级</label>
+                                <select id="stuSearchClazzId">
+                                    <option value="">请选择</option>
+                                </select>
+                            </div>
+                            <div class="search-actions">
+                                <button class="btn btn-primary" onclick="searchStudents()">查询</button>
+                                <button class="btn btn-outline" onclick="clearStudentSearch()">清空</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 功能操作栏 + 数据表格 -->
+                    <div class="table-card">
+                        <div class="table-toolbar">
+                            <div class="toolbar-left">
+                                <button class="btn btn-primary" onclick="openStuAddModal()">+ 新增学员</button>
+                                <button class="btn btn-danger" onclick="batchDeleteStudents()">批量删除</button>
+                            </div>
+                        </div>
+                        <div class="table-wrap">
+                            <table class="emp-table">
+                                <thead>
+                                    <tr>
+                                        <th style="width:40px;">
+                                            <input type="checkbox" id="stuCheckAll" onchange="toggleStuCheckAll(this)">
+                                        </th>
+                                        <th>姓名</th>
+                                        <th>性别</th>
+                                        <th>学号</th>
+                                        <th>所在班级</th>
+                                        <th>最高学历</th>
+                                        <th>违纪扣分</th>
+                                        <th style="width:180px;">操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="stuTableBody">
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- 分页栏 -->
+                        <div class="pagination-bar">
+                            <span class="total-info">共 <b id="stuTotalCount">0</b> 条</span>
+                            <div class="pagination-controls">
+                                <button class="page-btn" onclick="stuGoPage(1)" id="stuBtnFirst">首页</button>
+                                <button class="page-btn" onclick="stuGoPage(stuCurrentPage - 1)" id="stuBtnPrev">上一页</button>
+                                <span class="page-info">第 <b id="stuCurrentPageNum">1</b> 页 / 共 <b id="stuTotalPagesNum">1</b> 页</span>
+                                <button class="page-btn" onclick="stuGoPage(stuCurrentPage + 1)" id="stuBtnNext">下一页</button>
+                                <button class="page-btn" onclick="stuGoPage(stuTotalPages)" id="stuBtnLast">末页</button>
+                            </div>
+                            <div class="page-size-selector">
+                                每页显示
+                                <select id="stuPageSizeSelect" onchange="changeStuPageSize()">
+                                    <option value="5">5</option>
+                                    <option value="10" selected>10</option>
+                                    <option value="20">20</option>
+                                    <option value="50">50</option>
+                                </select>
+                                条
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -185,25 +340,51 @@
                 <!-- ========== 员工信息统计视图 ========== -->
                 <div id="viewStat" class="view-panel">
                     <div class="page-title">
-                        <h3>员工信息统计</h3>
+                        <h3 id="statPageTitle">员工信息统计</h3>
                     </div>
                     <div class="stats-container">
-                        <!-- 职位人数柱状图（ECharts 实现） -->
-                        <div class="chart-card">
-                            <div class="chart-header">
-                                <h4>职位人数统计</h4>
+                        <!-- 员工统计区域 -->
+                        <div class="stats-section" id="empStatSection">
+                            <div class="stats-section-title">员工统计</div>
+                            <!-- 职位人数柱状图（ECharts 实现） -->
+                            <div class="chart-card">
+                                <div class="chart-header">
+                                    <h4>职位人数统计</h4>
+                                </div>
+                                <div class="chart-body chart-bar-wrap">
+                                    <div class="chart-echarts" id="barChartContainer"></div>
+                                </div>
                             </div>
-                            <div class="chart-body chart-bar-wrap">
-                                <div class="chart-echarts" id="barChartContainer"></div>
+                            <!-- 员工性别统计饼状图（ECharts 实现） -->
+                            <div class="chart-card">
+                                <div class="chart-header">
+                                    <h4>员工性别统计</h4>
+                                </div>
+                                <div class="chart-body chart-pie-wrap">
+                                    <div class="chart-echarts" id="pieChartContainer"></div>
+                                </div>
                             </div>
                         </div>
-                        <!-- 员工性别统计饼状图（ECharts 实现） -->
-                        <div class="chart-card">
-                            <div class="chart-header">
-                                <h4>员工性别统计</h4>
+                        <!-- 学员统计区域 -->
+                        <div class="stats-section" id="studentStatSection">
+                            <div class="stats-section-title">学员统计</div>
+                            <!-- 班级人数柱状图（ECharts 实现） -->
+                            <div class="chart-card">
+                                <div class="chart-header">
+                                    <h4>班级人数统计</h4>
+                                </div>
+                                <div class="chart-body chart-bar-wrap">
+                                    <div class="chart-echarts" id="studentBarChartContainer"></div>
+                                </div>
                             </div>
-                            <div class="chart-body chart-pie-wrap">
-                                <div class="chart-echarts" id="pieChartContainer"></div>
+                            <!-- 学员学历统计饼状图（ECharts 实现） -->
+                            <div class="chart-card">
+                                <div class="chart-header">
+                                    <h4>学员学历统计</h4>
+                                </div>
+                                <div class="chart-body chart-pie-wrap">
+                                    <div class="chart-echarts" id="studentPieChartContainer"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -249,6 +430,83 @@
             <div class="modal-footer">
                 <button class="btn btn-cancel" onclick="closeDeptDeleteModal()">取消</button>
                 <button class="btn btn-danger" onclick="confirmDeptDelete()">确定删除</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== 班级新增/编辑弹窗 ========== -->
+    <div id="clazzModal" class="modal">
+        <div class="modal-content modal-lg">
+            <div class="modal-header">
+                <h3 id="clazzModalTitle">新增班级</h3>
+                <span class="close" onclick="closeClazzModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="clazzModalForm">
+                    <input type="hidden" id="clazzId">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="clazzName">班级名称 <span class="required">*</span></label>
+                            <input type="text" id="clazzName" placeholder="请输入班级名称" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="clazzRoom">教室</label>
+                            <input type="text" id="clazzRoom" placeholder="请输入教室">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="clazzBeginDate">开课时间 <span class="required">*</span></label>
+                            <input type="date" id="clazzBeginDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="clazzEndDate">结课时间 <span class="required">*</span></label>
+                            <input type="date" id="clazzEndDate" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="clazzSubject">学科 <span class="required">*</span></label>
+                            <select id="clazzSubject" required>
+                                <option value="">请选择</option>
+                                <option value="1">Java</option>
+                                <option value="2">前端</option>
+                                <option value="3">大数据</option>
+                                <option value="4">Python</option>
+                                <option value="5">其他</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="clazzMasterId">班主任 <span class="required">*</span></label>
+                            <input type="text" id="clazzMasterSearch" placeholder="输入名字检索" oninput="onMasterInput()" autocomplete="off">
+                            <select id="clazzMasterId" size="5" style="height:auto; min-height:100px; margin-top:4px;" required>
+                                <option value="">请选择班主任</option>
+                            </select>
+                            <div style="font-size:12px; color:#999; margin-top:4px;">在输入框中输入名字进行检索，从下方列表中点击选择</div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-cancel" onclick="closeClazzModal()">取消</button>
+                <button class="btn btn-primary" onclick="submitClazz()">确定</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== 班级删除确认弹窗 ========== -->
+    <div id="clazzDeleteModal" class="modal">
+        <div class="modal-content modal-sm">
+            <div class="modal-header">
+                <h3>确认删除</h3>
+                <span class="close" onclick="closeClazzDeleteModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p>确定要删除班级「<span id="deleteClazzName"></span>」吗？此操作不可撤销。</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-cancel" onclick="closeClazzDeleteModal()">取消</button>
+                <button class="btn btn-danger" onclick="confirmClazzDelete()">确定删除</button>
             </div>
         </div>
     </div>
@@ -369,17 +627,139 @@
         </div>
     </div>
 
+    <!-- ========== 学员新增/编辑弹窗 ========== -->
+    <div id="stuModal" class="modal">
+        <div class="modal-content modal-lg">
+            <div class="modal-header">
+                <h3 id="stuModalTitle">新增学员</h3>
+                <span class="close" onclick="closeStuModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="stuForm">
+                    <input type="hidden" id="stuId">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="stuName">姓名 <span class="required">*</span></label>
+                            <input type="text" id="stuName" placeholder="请输入学员姓名" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="stuNo">学号</label>
+                            <input type="text" id="stuNo" placeholder="请输入学号">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="stuGender">性别 <span class="required">*</span></label>
+                            <select id="stuGender" required>
+                                <option value="">请选择</option>
+                                <option value="1">男</option>
+                                <option value="2">女</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="stuPhone">手机号</label>
+                            <input type="text" id="stuPhone" placeholder="请输入手机号">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="stuIdCard">身份证号</label>
+                            <input type="text" id="stuIdCard" placeholder="请输入身份证号">
+                        </div>
+                        <div class="form-group">
+                            <label for="stuIsCollege">是否来自院校</label>
+                            <select id="stuIsCollege">
+                                <option value="">请选择</option>
+                                <option value="1">是</option>
+                                <option value="0">否</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="stuAddress">联系地址</label>
+                            <input type="text" id="stuAddress" placeholder="请输入联系地址">
+                        </div>
+                        <div class="form-group">
+                            <label for="stuDegree">最高学历 <span class="required">*</span></label>
+                            <select id="stuDegree" required>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="stuGraduationDate">毕业时间</label>
+                            <input type="date" id="stuGraduationDate">
+                        </div>
+                        <div class="form-group">
+                            <label for="stuClazzId">所在班级 <span class="required">*</span></label>
+                            <select id="stuClazzId" required>
+                                <option value="">请选择班级</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-cancel" onclick="closeStuModal()">取消</button>
+                <button class="btn btn-primary" onclick="submitStudent()">确定</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== 学员删除确认弹窗 ========== -->
+    <div id="stuDeleteModal" class="modal">
+        <div class="modal-content modal-sm">
+            <div class="modal-header">
+                <h3 id="stuDeleteModalTitle">确认删除</h3>
+                <span class="close" onclick="closeStuDeleteModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p id="stuDeleteModalMsg">确定要删除该学员吗？此操作不可撤销。</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-cancel" onclick="closeStuDeleteModal()">取消</button>
+                <button class="btn btn-danger" id="confirmStuDeleteBtn">确定删除</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== 学员违纪扣分弹窗 ========== -->
+    <div id="stuViolationModal" class="modal">
+        <div class="modal-content modal-sm">
+            <div class="modal-header">
+                <h3>违纪扣分</h3>
+                <span class="close" onclick="closeStuViolationModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p>学员：<b id="stuViolationName"></b></p>
+                <div class="form-group" style="margin-top:16px;">
+                    <label for="stuViolationScore">扣分分数 <span class="required">*</span></label>
+                    <input type="number" id="stuViolationScore" placeholder="请输入扣分分数" min="1" required>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-cancel" onclick="closeStuViolationModal()">取消</button>
+                <button class="btn btn-danger" onclick="confirmStuViolation()">确定扣分</button>
+            </div>
+        </div>
+    </div>
+
     <!-- 基础模块 -->
     <script src="js/config.js?v=4"></script>
     <script src="js/utils.js?v=4"></script>
     <!-- API 层 -->
     <script src="js/api/dept.js?v=4"></script>
     <script src="js/api/emp.js?v=4"></script>
+    <script src="js/api/clazz.js?v=4"></script>
+    <script src="js/api/student.js?v=4"></script>
     <!-- 图表库 -->
     <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
     <!-- 页面逻辑 -->
     <script src="js/pages/dept-manage.js?v=4"></script>
     <script src="js/pages/emp-manage.js?v=4"></script>
+    <script src="js/pages/clazz-manage.js?v=4"></script>
+    <script src="js/pages/student-manage.js?v=4"></script>
     <script src="js/pages/stat-manage.js?v=4"></script>
     <!-- 应用入口 -->
     <script src="js/app.js?v=4"></script>

@@ -22,7 +22,13 @@ public class GlobalExceptionHandler {
         String msg = e.getMessage();
         int i=msg.indexOf("Duplicate entry");
         String errMsg = msg.substring(i);
-        String[] arr = errMsg.split(" ");       
+        String[] arr = errMsg.split(" ");
         return Result.error(arr[2]+"已存在，请勿重复添加");
+    }
+
+    @ExceptionHandler
+    public Result handleBusinessException(BusinessException e) {
+        log.error("业务异常: {}", e.getMessage());
+        return Result.error(e.getMessage());
     }
 }

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lcx.tlias_web_management.mapper.ClazzMapper">
+
+    <!-- 分页条件查询班级列表（关联查询班主任姓名） -->
+    <select id="page" resultType="com.lcx.tlias_web_management.pojo.Clazz">
+        select c.*, e.name as master_name
+        from clazz c
+        left join emp e on c.master_id = e.id
+        <where>
+            <if test="name != null and name != ''">
+                and c.name like concat('%', #{name}, '%')
+            </if>
+        </where>
+        order by c.update_time desc
+    </select>
+
+    <!-- 根据ID查询班级详情 -->
+    <select id="getById" resultType="com.lcx.tlias_web_management.pojo.Clazz">
+        select c.*, e.name as master_name
+        from clazz c
+        left join emp e on c.master_id = e.id
+        where c.id = #{id}
+    </select>
+
+    <!-- 新增班级 -->
+    <insert id="insert" parameterType="com.lcx.tlias_web_management.pojo.Clazz"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into clazz (name, room, begin_date, end_date, master_id, subject, create_time, update_time)
+        values (#{name}, #{room}, #{beginDate}, #{endDate}, #{masterId}, #{subject}, #{createTime}, #{updateTime})
+    </insert>
+
+    <!-- 更新班级 -->
+    <update id="update" parameterType="com.lcx.tlias_web_management.pojo.Clazz">
+        update clazz
+        <set>
+            <if test="name != null">name = #{name},</if>
+            <if test="room != null">room = #{room},</if>
+            <if test="beginDate != null">begin_date = #{beginDate},</if>
+            <if test="endDate != null">end_date = #{endDate},</if>
+            <if test="masterId != null">master_id = #{masterId},</if>
+            <if test="subject != null">subject = #{subject},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!-- 根据ID删除班级 -->
+    <delete id="deleteById">
+        delete from clazz where id = #{id}
+    </delete>
+
+    <!-- 统计某个班级下的学生数量 -->
+    <select id="countStudentByClazzId" resultType="java.lang.Integer">
+        select count(*) from student where clazz_id = #{clazzId}
+    </select>
+
+    <!-- 查询所有班主任（员工表中职位为班主任的员工） -->
+    <select id="listMasters" resultType="com.lcx.tlias_web_management.pojo.Emp">
+        select id, name from emp where job = 1 order by name
+    </select>
+
+</mapper>
