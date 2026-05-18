@@ -3,6 +3,7 @@ package com.lcx.tlias_web_management.service.impl;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,6 +20,8 @@ import com.lcx.tlias_web_management.pojo.EmpExpr;
 import com.lcx.tlias_web_management.pojo.JobOption;
 import com.lcx.tlias_web_management.pojo.PageResult;
 import com.lcx.tlias_web_management.service.EmpService;
+import com.lcx.tlias_web_management.pojo.LoginInfo;
+import com.lcx.util.JwtUtils;
 
 @Service
 public class EmpServiceImpl implements EmpService {
@@ -119,5 +122,20 @@ public class EmpServiceImpl implements EmpService {
     @Override
     public List<Map<String, Object>> countEmpGender() {
         return empMapper.countEmpGender();
+    }
+
+    @Override
+    public LoginInfo login(Emp emp) {
+        // 调用mapper，根据用户名和密码查询员工信息
+        Emp result = empMapper.selectByUsernameAndPassword(emp);
+        // 判断是否查询到员工，如果没有查询到，返回 null 表示登录失败
+        if (result != null) {
+            Map<String,Object> dataMap = new HashMap<>();
+            dataMap.put("id", result.getId());
+            dataMap.put("username", result.getUsername());
+            String jwt = JwtUtils.generateJwt(dataMap); // 生成JWT
+            return new LoginInfo(result.getId(), result.getUsername(), result.getName(), jwt);
+        }
+        return null;
     }
 }

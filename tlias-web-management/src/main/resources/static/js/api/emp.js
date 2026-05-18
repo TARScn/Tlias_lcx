@@ -12,7 +12,7 @@ function apiGetEmps(params) {
     if (params.begin) urlParams.append('begin', params.begin);
     if (params.end) urlParams.append('end', params.end);
 
-    return fetch(BASE_URL + '/emps?' + urlParams.toString())
+    return authFetch(BASE_URL + '/emps?' + urlParams.toString())
         .then(function(response) {
             if (!response.ok) throw new Error('网络请求失败: ' + response.status);
             return response.json();
@@ -23,7 +23,7 @@ function apiGetEmps(params) {
  * 根据 ID 获取员工详情
  */
 function apiGetEmpById(id) {
-    return fetch(BASE_URL + '/emps/' + id)
+    return authFetch(BASE_URL + '/emps/' + id)
         .then(function(response) { return response.json(); });
 }
 
@@ -31,7 +31,7 @@ function apiGetEmpById(id) {
  * 新增员工
  */
 function apiAddEmp(empData) {
-    return fetch(BASE_URL + '/emps', {
+    return authFetch(BASE_URL + '/emps', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(empData)
@@ -42,7 +42,7 @@ function apiAddEmp(empData) {
  * 修改员工
  */
 function apiUpdateEmp(empData) {
-    return fetch(BASE_URL + '/emps', {
+    return authFetch(BASE_URL + '/emps', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(empData)
@@ -53,7 +53,7 @@ function apiUpdateEmp(empData) {
  * 删除员工
  */
 function apiDeleteEmp(id) {
-    return fetch(BASE_URL + '/emps/' + id, { method: 'DELETE' })
+    return authFetch(BASE_URL + '/emps/' + id, { method: 'DELETE' })
         .then(function(response) { return response.json(); });
 }
 
@@ -63,7 +63,7 @@ function apiDeleteEmp(id) {
 function apiBatchDeleteEmps(ids) {
     var params = new URLSearchParams();
     ids.forEach(function(id) { params.append('ids', id); });
-    return fetch(BASE_URL + '/emps/batch?' + params.toString(), { method: 'DELETE' })
+    return authFetch(BASE_URL + '/emps/batch?' + params.toString(), { method: 'DELETE' })
         .then(function(response) { return response.json(); });
 }
 
@@ -75,7 +75,7 @@ function apiBatchDeleteEmps(ids) {
 function apiUploadImage(file) {
     var formData = new FormData();
     formData.append('image', file);
-    return fetch(BASE_URL + '/upload', {
+    return authFetch(BASE_URL + '/upload', {
         method: 'POST',
         body: formData
     }).then(function(response) { return response.json(); });
@@ -86,7 +86,7 @@ function apiUploadImage(file) {
  * @returns {Promise} 返回职位统计数据
  */
 function apiCountEmpJob() {
-    return fetch(BASE_URL + '/emps/countJob')
+    return authFetch(BASE_URL + '/emps/countJob')
         .then(function(response) { return response.json(); });
 }
 
@@ -95,6 +95,6 @@ function apiCountEmpJob() {
  * @returns {Promise} 返回性别统计数据
  */
 function apiCountEmpGender() {
-    return fetch(BASE_URL + '/emps/countGender')
+    return authFetch(BASE_URL + '/emps/countGender')
         .then(function(response) { return response.json(); });
 }

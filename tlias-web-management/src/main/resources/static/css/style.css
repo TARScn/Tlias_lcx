@@ -946,3 +946,108 @@ ul {
 ::-webkit-scrollbar-thumb:hover {
     background-color: #a8a8a8;
 }
+
+/* ===== 登录页面 ===== */
+.login-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #1890ff 0%, #13c2c2 100%);
+    padding: 24px;
+}
+
+.login-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 40px 36px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+    animation: slideIn 0.3s ease;
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+.login-header h2 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.login-header p {
+    font-size: 14px;
+    color: #999;
+}
+
+.login-form .form-group {
+    margin-bottom: 20px;
+}
+
+.login-form .form-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #555;
+}
+
+.login-form .form-group input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #d9d9d9;
+    border-radius: 6px;
+    font-size: 15px;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    background: #fafafa;
+}
+
+.login-form .form-group input:focus {
+    border-color: #1890ff;
+    box-shadow: 0 0 0 3px rgba(24, 144, 255, 0.15);
+    background: #fff;
+}
+
+.login-form .form-group input::placeholder {
+    color: #bfbfbf;
+}
+
+.login-error-msg {
+    color: #ff4d4f;
+    font-size: 13px;
+    text-align: center;
+    background: #fff2f0;
+    border: 1px solid #ffccc7;
+    border-radius: 6px;
+    padding: 8px 12px;
+}
+
+.btn-login {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 6px;
+    margin-top: 8px;
+    letter-spacing: 2px;
+    transition: all 0.3s;
+}
+
+.btn-login:hover {
+    background-color: #40a9ff;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(24, 144, 255, 0.35);
+}
+
+.btn-login:disabled {
+    background-color: #91d5ff;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}

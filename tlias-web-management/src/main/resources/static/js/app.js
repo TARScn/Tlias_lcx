@@ -1,9 +1,39 @@
 // ===== 应用入口与导航 =====
 
 /**
+ * 页面加载时检查登录状态
+ */
+document.addEventListener('DOMContentLoaded', function() {
+    // 检查是否已登录
+    if (!isLoggedIn()) {
+        // 未登录，跳转到登录页
+        window.location.href = 'login.html';
+        return;
+    }
+
+    // 显示当前登录用户信息
+    var user = getUserInfo();
+    if (user) {
+        var userBadge = document.getElementById('userBadge');
+        if (userBadge) {
+            userBadge.textContent = user.name || user.username;
+        }
+    }
+
+    // 默认显示部门管理
+    fetchDepts();
+});
+
+/**
  * 视图切换
  */
 function switchView(view, el) {
+    // 检查登录状态
+    if (!isLoggedIn()) {
+        window.location.href = 'login.html';
+        return;
+    }
+
     // 隐藏所有视图
     var panels = document.querySelectorAll('.view-panel');
     panels.forEach(function(p) { p.classList.remove('active'); });
@@ -84,7 +114,8 @@ function toggleSubmenu(element) {
  */
 function logout() {
     if (confirm('确定要退出登录吗？')) {
-        alert('已退出登录');
+        clearLoginInfo();
+        window.location.href = 'login.html';
     }
 }
 
@@ -100,8 +131,3 @@ window.onclick = function(event) {
     if (event.target === document.getElementById('empModal')) closeEmpModal();
     if (event.target === document.getElementById('empDeleteModal')) closeEmpDeleteModal();
 };
-
-// ===== 页面加载：默认显示部门管理 =====
-document.addEventListener('DOMContentLoaded', function() {
-    fetchDepts();
-});

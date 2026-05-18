@@ -60,4 +60,10 @@ public interface EmpMapper {
      * @return List of {gender, count}
      */
     List<Map<String, Object>> countEmpGender();
+
+    /**
+     * 根据用户名和密码查询员工（登录验证）
+     * @param emp 包含用户名和id的Emp对象
+     */
+    Emp selectByUsernameAndPassword(Emp emp);
 }

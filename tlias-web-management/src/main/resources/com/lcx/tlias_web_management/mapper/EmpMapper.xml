@@ -90,4 +90,11 @@
                count(*) as count
         from emp group by gender
     </select>
+
+    <!-- 根据用户名和密码查询员工 -->
+    <select id="selectByUsernameAndPassword" resultType="com.lcx.tlias_web_management.pojo.Emp">
+        select e.*
+        from emp e
+        where e.username = #{username} and e.password = #{password}
+    </select>
 </mapper>

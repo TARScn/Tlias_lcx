@@ -7,6 +7,7 @@ import java.util.Map;
 import com.lcx.tlias_web_management.pojo.Emp;
 import com.lcx.tlias_web_management.pojo.JobOption;
 import com.lcx.tlias_web_management.pojo.PageResult;
+import com.lcx.tlias_web_management.pojo.LoginInfo;
 
 public interface EmpService {
     /**
@@ -52,4 +53,10 @@ public interface EmpService {
      * @return List<Map> 包含性别和人数
      */
     List<Map<String, Object>> countEmpGender();
+
+    /**
+     * 登录验证
+     * @return 登录成功返回员工信息，否则返回空
+     */
+    LoginInfo login(Emp emp);
 }
