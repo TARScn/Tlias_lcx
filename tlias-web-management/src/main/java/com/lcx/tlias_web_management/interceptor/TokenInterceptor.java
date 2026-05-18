@@ -4,16 +4,19 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import com.lcx.util.JwtUtils;
+import com.lcx.util.CurrentHolder;
+import io.jsonwebtoken.Claims;
 
 @Slf4j
 @Component
 public class TokenInterceptor implements HandlerInterceptor {
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    public boolean preHandle(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull Object handler) throws Exception {
         // 获取请求url
         String url = request.getRequestURI();
         // 获取请求头中的token
@@ -26,7 +29,10 @@ public class TokenInterceptor implements HandlerInterceptor {
         }
         // 解析token
         try{
-            JwtUtils.parseJWT(token);
+            Claims claims = JwtUtils.parseJWT(token);
+            // 注意：JWT 中存储的 key 为 "id"（见 EmpServiceImpl.login）
+            Integer empId = (Integer) claims.get("id");
+            CurrentHolder.setCurrentId(empId);
         }catch(Exception e){
             log.warn("请求携带的token无效，拒绝访问: {}", url);
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
@@ -35,5 +41,11 @@ public class TokenInterceptor implements HandlerInterceptor {
         // token有效，放行
         log.info("请求携带的token有效，允许访问: {}", url);
         return true;
+    }
+
+    @Override
+    public void afterCompletion(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull Object handler, Exception ex) throws Exception {
+        // 请求处理完毕，必须清除ThreadLocal中的数据
+        CurrentHolder.remove();
     }
 }

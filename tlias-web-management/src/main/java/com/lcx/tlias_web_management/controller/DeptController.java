@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.lcx.tlias_web_management.pojo.Dept;
 import com.lcx.tlias_web_management.pojo.Result;
 import com.lcx.tlias_web_management.service.DeptService;
+import com.lcx.tlias_web_management.aop.LogOperation;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -42,6 +43,7 @@ public class DeptController {
      * @param id
      * @return Result
      */
+    @LogOperation
     @DeleteMapping // http://localhost:8080/depts?id=1
     public Result delete(Integer id){
         log.info("根据id删除部门数据:{}",id);
@@ -54,6 +56,7 @@ public class DeptController {
      * @param dept
      * @return Result
      */
+    @LogOperation
     @PostMapping
     public Result add(@RequestBody Dept dept) {
         log.info("添加部门数据:{}",dept);
@@ -78,6 +81,7 @@ public class DeptController {
      * @param dept
      * @return Result
      */
+    @LogOperation
     @PutMapping 
     public Result update(@RequestBody Dept dept) {
         log.info("根据id修改部门数据:{}",dept);

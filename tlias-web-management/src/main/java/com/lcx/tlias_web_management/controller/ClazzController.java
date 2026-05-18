@@ -5,6 +5,7 @@ import com.lcx.tlias_web_management.pojo.Emp;
 import com.lcx.tlias_web_management.pojo.PageResult;
 import com.lcx.tlias_web_management.pojo.Result;
 import com.lcx.tlias_web_management.service.ClazzService;
+import com.lcx.tlias_web_management.aop.LogOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -54,6 +55,7 @@ public class ClazzController {
     /**
      * 新增班级
      */
+    @LogOperation
     @PostMapping
     public Result add(@RequestBody Clazz clazz) {
         log.info("新增班级: {}", clazz);
@@ -64,6 +66,7 @@ public class ClazzController {
     /**
      * 修改班级
      */
+    @LogOperation
     @PutMapping
     public Result update(@RequestBody Clazz clazz) {
         log.info("修改班级: {}", clazz);
@@ -74,6 +77,7 @@ public class ClazzController {
     /**
      * 根据ID删除班级
      */
+    @LogOperation
     @DeleteMapping("/{id}")
     public Result deleteById(@PathVariable Integer id) {
         log.info("删除班级: {}", id);

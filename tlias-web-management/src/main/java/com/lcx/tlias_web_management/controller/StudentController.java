@@ -20,6 +20,7 @@ import com.lcx.tlias_web_management.pojo.PageResult;
 import com.lcx.tlias_web_management.pojo.Result;
 import com.lcx.tlias_web_management.pojo.Student;
 import com.lcx.tlias_web_management.service.StudentService;
+import com.lcx.tlias_web_management.aop.LogOperation;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -59,6 +60,7 @@ public class StudentController {
     /**
      * 新增学员
      */
+    @LogOperation
     @PostMapping
     public Result add(@RequestBody Student student) {
         log.info("新增学员: {}", student);
@@ -69,6 +71,7 @@ public class StudentController {
     /**
      * 修改学员
      */
+    @LogOperation
     @PutMapping
     public Result update(@RequestBody Student student) {
         log.info("修改学员: {}", student);
@@ -79,6 +82,7 @@ public class StudentController {
     /**
      * 根据ID删除学员
      */
+    @LogOperation
     @DeleteMapping("/{id}")
     public Result deleteById(@PathVariable Integer id) {
         log.info("删除学员: {}", id);
@@ -89,6 +93,7 @@ public class StudentController {
     /**
      * 批量删除学员
      */
+    @LogOperation
     @DeleteMapping("/batch")
     public Result deleteByIds(@RequestParam List<Integer> ids) {
         log.info("批量删除学员: {}", ids);
@@ -99,6 +104,7 @@ public class StudentController {
     /**
      * 学员违纪扣分
      */
+    @LogOperation
     @PutMapping("/violation")
     public Result updateViolation(@RequestBody Map<String, Object> params) {
         Number idValue = (Number) params.get("id");

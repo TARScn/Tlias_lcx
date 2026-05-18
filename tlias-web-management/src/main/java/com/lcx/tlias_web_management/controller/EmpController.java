@@ -19,6 +19,7 @@ import com.lcx.tlias_web_management.pojo.Emp;
 import com.lcx.tlias_web_management.pojo.PageResult;
 import com.lcx.tlias_web_management.pojo.Result;
 import com.lcx.tlias_web_management.service.EmpService;
+import com.lcx.tlias_web_management.aop.LogOperation;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -58,6 +59,7 @@ public class EmpController {
     /**
      * 新增员工
      */
+    @LogOperation
     @PostMapping
     public Result add(@RequestBody Emp emp) {
         log.info("新增员工: {}", emp);
@@ -68,6 +70,7 @@ public class EmpController {
     /**
      * 修改员工
      */
+    @LogOperation
     @PutMapping
     public Result update(@RequestBody Emp emp) {
         log.info("修改员工: {}", emp);
@@ -78,6 +81,7 @@ public class EmpController {
     /**
      * 根据ID删除员工
      */
+    @LogOperation
     @DeleteMapping("/{id}")
     public Result deleteById(@PathVariable Integer id) {
         log.info("删除员工: {}", id);
@@ -88,6 +92,7 @@ public class EmpController {
     /**
      * 批量删除员工
      */
+    @LogOperation
     @DeleteMapping("/batch")
     public Result deleteByIds(@RequestParam List<Integer> ids) {
         log.info("批量删除员工: {}", ids);
