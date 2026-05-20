@@ -1,3 +1,7 @@
+/**
+ * 文件上传控制器
+ * 处理用户头像图片的上传，返回可访问的图片 URL
+ */
 package com.lcx.tlias_web_management.controller;
 
 import java.io.File;

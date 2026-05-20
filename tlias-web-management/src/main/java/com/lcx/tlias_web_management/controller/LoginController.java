@@ -1,3 +1,7 @@
+/**
+ * 登录控制器
+ * 处理用户登录请求，验证用户名密码并返回 JWT 令牌
+ */
 package com.lcx.tlias_web_management.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,10 +17,6 @@ import com.lcx.tlias_web_management.pojo.Emp;
 import com.lcx.tlias_web_management.pojo.LoginInfo;
 import com.lcx.tlias_web_management.pojo.Result;
 import com.lcx.tlias_web_management.service.EmpService;
-
-/**
- * 登录控制器，处理用户登录相关的请求
- */
 @Slf4j
 @RestController
 @RequestMapping("/login")

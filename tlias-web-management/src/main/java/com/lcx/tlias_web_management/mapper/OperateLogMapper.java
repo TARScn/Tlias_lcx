@@ -1,3 +1,7 @@
+/**
+ * 操作日志数据访问接口
+ * 提供操作日志的插入操作（记录操作人、时间、方法、参数、返回值、耗时）
+ */
 package com.lcx.tlias_web_management.mapper;
 
 import org.apache.ibatis.annotations.Insert;

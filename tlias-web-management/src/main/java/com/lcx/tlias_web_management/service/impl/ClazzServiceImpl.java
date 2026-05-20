@@ -1,3 +1,7 @@
+/**
+ * 班级业务实现类
+ * 实现班级 CRUD、分页查询、状态自动计算（未开班/在读中/已结课）、删除前检查学生关联
+ */
 package com.lcx.tlias_web_management.service.impl;
 
 import com.github.pagehelper.Page;

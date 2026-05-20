@@ -1,3 +1,7 @@
+/**
+ * Token 认证拦截器
+ * 拦截除登录和静态资源外的所有请求，校验 JWT 令牌有效性
+ */
 package com.lcx.tlias_web_management.interceptor;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -5,6 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -44,7 +49,7 @@ public class TokenInterceptor implements HandlerInterceptor {
     }
 
     @Override
-    public void afterCompletion(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull Object handler, Exception ex) throws Exception {
+    public void afterCompletion(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull Object handler, @Nullable Exception ex) throws Exception {
         // 请求处理完毕，必须清除ThreadLocal中的数据
         CurrentHolder.remove();
     }

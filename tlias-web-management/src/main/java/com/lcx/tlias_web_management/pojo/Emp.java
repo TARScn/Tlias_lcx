@@ -1,3 +1,7 @@
+/**
+ * 员工实体类
+ * 映射员工表字段，包含部门名称（关联查询）和工作经历列表
+ */
 package com.lcx.tlias_web_management.pojo; 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

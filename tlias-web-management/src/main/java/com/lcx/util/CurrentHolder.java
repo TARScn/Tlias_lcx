@@ -1,3 +1,7 @@
+/**
+ * 当前登录用户 ID 持有者
+ * 基于 ThreadLocal 实现在同一次请求中共享当前操作人 ID
+ */
 package com.lcx.util;
 
 public class CurrentHolder {

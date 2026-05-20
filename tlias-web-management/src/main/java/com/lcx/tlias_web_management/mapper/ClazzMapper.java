@@ -1,3 +1,7 @@
+/**
+ * 班级数据访问接口
+ * 提供班级表 CRUD、分页查询、学生数量统计、班主任列表查询等数据库操作
+ */
 package com.lcx.tlias_web_management.mapper;
 
 import com.lcx.tlias_web_management.pojo.Clazz;

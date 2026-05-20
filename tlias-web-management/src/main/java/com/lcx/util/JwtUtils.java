@@ -10,8 +10,8 @@ import java.util.Date;
 import java.util.Map;
 
 /**
- * JWT（JSON Web Token）工具类，提供令牌的生成与解析功能。
- * 使用 HMAC-SHA256 算法签名，密钥最低要求 32 字节。
+ * JWT 工具类
+ * 基于 HMAC-SHA256 算法提供 JWT 令牌的生成与解析功能
  */
 public class JwtUtils {
 

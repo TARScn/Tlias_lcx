@@ -1,3 +1,7 @@
+/**
+ * 员工业务接口
+ * 定义员工 CRUD、分页查询、统计及登录验证等业务方法
+ */
 package com.lcx.tlias_web_management.service;
 
 import java.time.LocalDate;

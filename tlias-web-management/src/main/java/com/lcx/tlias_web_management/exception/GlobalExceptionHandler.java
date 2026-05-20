@@ -1,3 +1,7 @@
+/**
+ * 全局异常处理器
+ * 统一处理业务异常、主键冲突异常及其他未捕获异常，返回标准化错误响应
+ */
 package com.lcx.tlias_web_management.exception;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.web.bind.annotation.ExceptionHandler;

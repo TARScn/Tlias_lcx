@@ -1,3 +1,7 @@
+/**
+ * 统一响应结果封装类
+ * 规范后端接口返回格式：code（1=成功/0=失败）、message、data
+ */
 package com.lcx.tlias_web_management.pojo;
 
 import lombok.Data;

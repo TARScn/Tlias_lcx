@@ -1,3 +1,7 @@
+/**
+ * 员工业务实现类
+ * 实现员工 CRUD、分页查询（PageHelper）、登录验证（JWT 签发）、工作经历关联管理等业务
+ */
 package com.lcx.tlias_web_management.service.impl;
 
 import java.time.LocalDate;

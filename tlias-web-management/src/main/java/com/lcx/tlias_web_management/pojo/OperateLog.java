@@ -1,3 +1,7 @@
+/**
+ * 操作日志实体类
+ * 映射操作日志表字段，记录操作人、时间、类名、方法、参数、返回值、耗时
+ */
 package com.lcx.tlias_web_management.pojo;
 
 import java.time.LocalDateTime;

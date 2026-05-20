@@ -1,3 +1,7 @@
+/**
+ * 学员控制器
+ * 提供学员 CRUD、分页条件查询、批量删除、违纪扣分、统计等接口
+ */
 package com.lcx.tlias_web_management.controller;
 
 import java.util.List;

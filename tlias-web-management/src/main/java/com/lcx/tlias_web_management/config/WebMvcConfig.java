@@ -1,6 +1,11 @@
+/**
+ * Spring MVC 配置类
+ * 注册 Token 拦截器、配置静态资源映射（上传头像访问）
+ */
 package com.lcx.tlias_web_management.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.NonNull;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -22,7 +27,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
      * 注册拦截器
      */
     @Override
-    public void addInterceptors(InterceptorRegistry registry) {
+    @SuppressWarnings("null")
+    public void addInterceptors(@NonNull InterceptorRegistry registry) {
         registry.addInterceptor(tokenInterceptor)
                 .addPathPatterns("/**") // 拦截所有请求
                 .excludePathPatterns(
@@ -31,7 +37,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
                     "/css/**",          // 静态资源CSS
                     "/favicon.svg",     // 网站图标
                     "/index.html",      // 主页
-                    "/login.html"       // 登录页
+                    "/login.html",      // 登录页
+                    "/"                 // 根路径
                 );
     }
 
@@ -39,7 +46,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
      * 配置静态资源映射，使上传的头像可通过 /images/** 访问
      */
     @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+    public void addResourceHandlers(@NonNull ResourceHandlerRegistry registry) {
         // 确保路径以 / 结尾
         String path = uploadPath.endsWith("/") ? uploadPath : uploadPath + "/";
         registry.addResourceHandler("/images/**")

@@ -1,3 +1,7 @@
+/**
+ * 员工工作经历数据访问接口
+ * 提供工作经历表的批量插入、删除、查询等数据库操作
+ */
 package com.lcx.tlias_web_management.mapper;
 
 import java.util.List;

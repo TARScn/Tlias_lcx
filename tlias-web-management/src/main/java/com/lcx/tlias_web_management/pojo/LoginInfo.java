@@ -1,12 +1,12 @@
+/**
+ * 登录信息响应封装类
+ * 包含用户ID、用户名、姓名、JWT 令牌
+ */
 package com.lcx.tlias_web_management.pojo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-/**
- * 封装登入信息
- */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

@@ -1,3 +1,7 @@
+/**
+ * 班级控制器
+ * 提供班级 CRUD、分页条件查询、班主任列表查询等接口
+ */
 package com.lcx.tlias_web_management.controller;
 
 import com.lcx.tlias_web_management.pojo.Clazz;

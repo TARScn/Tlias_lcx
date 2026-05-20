@@ -1,3 +1,7 @@
+/**
+ * 班级业务接口
+ * 定义班级 CRUD、分页查询、班主任列表查询等业务方法
+ */
 package com.lcx.tlias_web_management.service;
 
 import com.lcx.tlias_web_management.pojo.Clazz;

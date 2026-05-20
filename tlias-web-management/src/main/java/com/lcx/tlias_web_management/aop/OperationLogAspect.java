@@ -1,3 +1,7 @@
+/**
+ * 操作日志 AOP 切面
+ * 拦截 @LogOperation 注解的方法，记录操作人、参数、返回值、耗时等日志信息
+ */
 package com.lcx.tlias_web_management.aop;
 
 import com.lcx.tlias_web_management.mapper.OperateLogMapper;

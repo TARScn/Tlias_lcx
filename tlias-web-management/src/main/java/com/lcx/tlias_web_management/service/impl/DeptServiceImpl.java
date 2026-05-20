@@ -1,3 +1,7 @@
+/**
+ * 部门业务实现类
+ * 实现部门 CRUD 业务逻辑，维护创建时间和修改时间
+ */
 package com.lcx.tlias_web_management.service.impl;
 
 import java.util.List;

@@ -6,7 +6,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 自定义注解,用于标识需要记录操作日志的方法
+ * 自定义注解 - 操作日志记录
+ * 标注在需要记录操作日志的 Controller 方法上，由 OperationLogAspect 切入处理
  */
 @Target(ElementType.METHOD) // 注解作用于方法
 @Retention(RetentionPolicy.RUNTIME) // 运行时起作用

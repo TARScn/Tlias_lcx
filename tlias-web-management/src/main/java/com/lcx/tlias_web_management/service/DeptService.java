@@ -1,3 +1,7 @@
+/**
+ * 部门业务接口
+ * 定义部门 CRUD 业务方法
+ */
 package com.lcx.tlias_web_management.service;
 import java.util.List;
 

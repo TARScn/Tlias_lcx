@@ -1,3 +1,7 @@
+/**
+ * 学员业务实现类
+ * 实现学员 CRUD、分页查询、违纪扣分、批量删除、统计等业务
+ */
 package com.lcx.tlias_web_management.service.impl;
 
 import com.github.pagehelper.Page;

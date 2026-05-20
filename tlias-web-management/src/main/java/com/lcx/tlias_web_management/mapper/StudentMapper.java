@@ -1,3 +1,7 @@
+/**
+ * 学员数据访问接口
+ * 提供学员表 CRUD、分页查询、批量删除、违纪扣分、统计等数据库操作
+ */
 package com.lcx.tlias_web_management.mapper;
 
 import com.lcx.tlias_web_management.pojo.Student;

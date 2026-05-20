@@ -1,3 +1,7 @@
+/**
+ * 学员业务接口
+ * 定义学员 CRUD、分页查询、违纪扣分、统计等业务方法
+ */
 package com.lcx.tlias_web_management.service;
 
 import com.lcx.tlias_web_management.pojo.Clazz;

@@ -1,3 +1,7 @@
+/**
+ * 部门控制器
+ * 提供部门 CRUD 接口：查询列表、根据ID查询、新增、修改、删除
+ */
 package com.lcx.tlias_web_management.controller;
 
 import java.util.List;

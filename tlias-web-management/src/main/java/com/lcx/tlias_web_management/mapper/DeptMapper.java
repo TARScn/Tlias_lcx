@@ -1,3 +1,7 @@
+/**
+ * 部门数据访问接口
+ * 提供部门表的基础 CRUD 操作（MyBatis）
+ */
 package com.lcx.tlias_web_management.mapper;
 
 import java.util.List;

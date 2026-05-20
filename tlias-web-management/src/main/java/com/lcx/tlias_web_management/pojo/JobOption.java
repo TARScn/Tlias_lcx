@@ -1,3 +1,7 @@
+/**
+ * 职位/班级统计选项封装类
+ * 用于统计图表的 X 轴标签列表和数据列表
+ */
 package com.lcx.tlias_web_management.pojo;
 
 import lombok.Data;

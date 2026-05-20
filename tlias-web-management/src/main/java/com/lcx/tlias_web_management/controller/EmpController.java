@@ -1,3 +1,7 @@
+/**
+ * 员工控制器
+ * 提供员工 CRUD、分页条件查询、批量删除、统计（职位/性别）等接口
+ */
 package com.lcx.tlias_web_management.controller;
 
 import java.time.LocalDate;

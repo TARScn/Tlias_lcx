@@ -1,3 +1,7 @@
+/**
+ * 员工数据访问接口
+ * 提供员工表 CRUD、分页条件查询、批量删除、统计等数据库操作
+ */
 package com.lcx.tlias_web_management.mapper;
 
 import java.time.LocalDate;

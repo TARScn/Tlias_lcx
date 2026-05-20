@@ -1,3 +1,7 @@
+/**
+ * 部门实体类
+ * 映射部门表字段：ID、名称、创建时间、修改时间
+ */
 package com.lcx.tlias_web_management.pojo;
 
 import java.time.LocalDateTime;
