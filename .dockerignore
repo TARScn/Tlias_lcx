@@ -1,0 +1,33 @@
+# ============================================================
+# .dockerignore - 构建上下文中排除不需要的文件，提高构建效率
+# ============================================================
+
+# Git 相关
+.git
+.gitignore
+.gitattributes
+
+# Maven 构建产物
+**/target/
+
+# Maven Wrapper（容器内有独立 Maven）
+.mvn/
+mvnw
+mvnw.cmd
+
+# IDE 配置
+.vscode/
+.idea/
+*.iml
+
+# 日志文件
+**/*.log
+log/
+
+# 文档与说明
+README.md
+HELP.md
+doc/
+
+# Node / 前端构建（本项目前端为静态资源，已内含于 src/main/resources/static）
+node_modules/

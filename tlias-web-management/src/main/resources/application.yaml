@@ -1,27 +1,45 @@
 spring:
   application:
     name: tlias-web-management
-  # 配置数据库连接信息
+
+  # ---------------------------------------------------------
+  # 数据库连接配置（支持 Docker 容器环境变量覆盖）
+  # 在生产环境（Docker 容器）中通过环境变量注入：
+  #   MYSQL_HOST       - 数据库主机地址（默认值 localhost）
+  #   MYSQL_PORT       - 数据库端口（默认值 3306）
+  #   MYSQL_USER       - 数据库用户名（默认值 root）
+  #   MYSQL_PASSWORD   - 数据库密码（默认值 000000）
+  # ---------------------------------------------------------
   datasource:
-    url: jdbc:mysql://localhost:3306/tlias
-    username: root
-    password: "000000"
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/tlias
+    username: ${MYSQL_USER:root}
+    password: ${MYSQL_PASSWORD:000000}
     driver-class-name: com.mysql.cj.jdbc.Driver
-  # 设置文件上传限制
+
+  # ---------------------------------------------------------
+  # 文件上传大小限制
+  # ---------------------------------------------------------
   servlet:
     multipart:
       max-file-size: 10MB
       max-request-size: 100MB
+
+# ---------------------------------------------------------
 # MyBatis 配置
+# ---------------------------------------------------------
 mybatis:
   mapper-locations: classpath:com/lcx/tlias_web_management/mapper/*.xml
   configuration:
-    # 开启SQL日志打印（使用 SLF4J，与 logback 集成）
+    # 开启 SQL 日志打印（使用 SLF4J，与 logback 集成）
     log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
-    # 开启驼峰命名转换
+    # 开启驼峰命名转换（如 dept_name -> deptName）
     map-underscore-to-camel-case: true
 
-# 自定义配置 - 文件上传路径
+# ---------------------------------------------------------
+# 自定义配置 - 文件上传存储路径
+# 在 Docker 容器中通过环境变量 UPLOAD_PATH 覆盖
+# 默认值 /data/uploads 与 Dockerfile 中创建的目录一致
+# ---------------------------------------------------------
 tlias:
   upload:
-    path: d:/tlias
+    path: ${UPLOAD_PATH:/data/uploads}

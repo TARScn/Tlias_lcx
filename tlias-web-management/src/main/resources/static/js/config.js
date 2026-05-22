@@ -1,5 +1,7 @@
 // ===== 基础配置 =====
-var BASE_URL = 'http://localhost:8080';
+// 使用空字符串表示同源请求（API 请求与页面来自同一台服务器）
+// 本地开发可改为 'http://localhost:8080'
+var BASE_URL = '';
 
 // 职位映射
 var JOB_MAP = {
@@ -70,7 +72,7 @@ function isLoggedIn() {
 
 /**
  * 带 Token 的 fetch 请求封装
- * 自动在请求头中添加 Authorization: Bearer <token>
+ * 自动在请求头中添加 token
  * 当收到 401 状态码时自动清除登录信息并跳转到登录页
  */
 function authFetch(url, options) {
