@@ -264,7 +264,6 @@ firewall-cmd --reload
 
 ```bash
 # ===== 本地 =====
-cd E:\aaaWS\vscode_ws\java_ws\Tlias_lcx
 docker build -t tlias-web-management:latest .
 docker save tlias-web-management:latest -o tlias-web-management.tar
 scp tlias-web-management.tar root@服务器IP:/opt/tlias/

@@ -139,4 +139,5 @@ mvn spring-boot:run
 | [MySQL分页查询与分页插件详解](doc/MySQL分页查询与分页插件详解.md) | PageHelper 原理 |
 | [Bean详解与第三方Bean配置](doc/Bean详解与第三方Bean配置.md) | IoC/DI/Bean作用域 |
 | [SpringBoot起步依赖与自动配置详解](doc/SpringBoot起步依赖与自动配置详解.md) | Starter 与自动配置源码分析 |
+| [docker指南.md](doc/docker指南.md) | docker的介绍和项目部署 |
 | [Tlias员工管理系统后端总结](doc/Tlias员工管理系统后端总结.md) | 完整项目总结 |
